@@ -4,6 +4,8 @@
 
 #include <stdint.h>
 
+typedef uint32_t opt_cmd;
+
 typedef enum _cmd_id {
 	CMD_NONE = 0,
 	CMD_VERSION = 1 << 0,
@@ -24,7 +26,7 @@ typedef enum _opt_id {
 } opt_id_t;
 
 typedef struct _option {
-	uint32_t cmd;
+	opt_cmd cmd;
 	bool version;
 	bool help;
 	bool list;

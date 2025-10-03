@@ -118,7 +118,7 @@ int set_cmd(option_t *opt) {
 
 int run_cmd(option_t *opt) {
 	int n = 0;
-	uint32_t cmd = opt->cmd;
+	opt_cmd cmd = opt->cmd;
 	for (int i = 0; cmds[i].cmd_id && cmds[i].cmd_func; i++) {
 		if (opt->cmd & cmds[i].cmd_id) {
 			cmds[i].cmd_func(opt);

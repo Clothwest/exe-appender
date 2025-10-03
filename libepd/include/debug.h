@@ -13,6 +13,6 @@ set_console_color(DEFAULT_COLOR)
 
 #else
 
-#define LOG(color, x)
+#define LOG(color, ...)
 
 #endif
