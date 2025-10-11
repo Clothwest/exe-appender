@@ -6,16 +6,19 @@
 
 #include <stdio.h>
 
-int cmd_list(option_t *opt) {
+int cmd_list(option_t *opt)
+{
 	return print_list(opt);
 	//return 0;
 }
 
-int print_list(option_t *opt) {
+int print_list(option_t *opt)
+{
 	FILE *fexe = epd_fopen(opt->exe, "rb");
 	footer_t footer = { 0 };
 	fread_footer(&footer, fexe);
-	if (memcmp(footer.magic, MAGIC, MAGIC_SIZE) != 0 || memcmp(footer.tail, TAIL, TAIL_SIZE != 0)) {
+	if (memcmp(footer.magic, MAGIC, MAGIC_SIZE) != 0 || memcmp(footer.tail, TAIL, TAIL_SIZE != 0))
+	{
 		printf("No appended file\n");
 		epd_fclose(fexe);
 		return 1;

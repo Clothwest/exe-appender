@@ -5,8 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUF_SIZE (1024 * 1024)
-
 /*
 	usage:
 	epd -h
@@ -16,7 +14,8 @@
 	epd <exe> -x <out_path>
 */
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 	option_t opt = { 0 };
 	collectargs(argc, argv, &opt);
 	set_cmd(&opt);

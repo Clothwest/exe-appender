@@ -24,7 +24,8 @@ static cmd_t cmds[] = {
 	{ CMD_NONE, NULL }
 };
 
-static void opt_to_default(option_t *opt) {
+static void opt_to_default(option_t *opt)
+{
 	opt->cmd = CMD_NONE;
 	opt->exe = NULL;
 	opt->append = NULL;
@@ -34,21 +35,28 @@ static void opt_to_default(option_t *opt) {
 	opt->help = 0;
 }
 
-int collectargs(int argc, char **argv, option_t *opt) {
+int collectargs(int argc, char **argv, option_t *opt)
+{
 	opt_to_default(opt);
-	for (int i = 1; i < argc; i++) {
+	for (int i = 1; i < argc; i++)
+	{
 		char *arg = argv[i];
 		size_t len = strlen(arg);
-		if (!opt->exe && len >= 4 && strcmp(arg + len - 4, ".exe") == 0) {
+		if (!opt->exe && len >= 4 && strcmp(arg + len - 4, ".exe") == 0)
+		{
 			opt->exe = arg;
 			continue;
 		}
 		bool found = false;
-		for (int j = 0; options[j].name; j++) {
-			if (strcmp(arg, options[j].name) == 0) {
+		for (int j = 0; options[j].name; j++)
+		{
+			if (strcmp(arg, options[j].name) == 0)
+			{
 				found = true;
-				if (!options[j].args) {
-					switch (options[j].id) {
+				if (!options[j].args)
+				{
+					switch (options[j].id)
+					{
 						case OPT_VERSION:
 							opt->version = true;
 							break;
@@ -64,9 +72,12 @@ int collectargs(int argc, char **argv, option_t *opt) {
 							break;
 					}
 				}
-				else {
-					if (i + 1 < argc) {
-						switch (options[j].id) {
+				else
+				{
+					if (i + 1 < argc)
+					{
+						switch (options[j].id)
+						{
 							case OPT_APPEND:
 								opt->append = argv[++i];
 								break;
@@ -77,50 +88,61 @@ int collectargs(int argc, char **argv, option_t *opt) {
 								break;
 						}
 					}
-					else {
+					else
+					{
 						errprintf("Error: %s requires an argument\n", options[j].name);
 					}
 				}
 				break;
 			}
 		}
-		if (!found) {
+		if (!found)
+		{
 			errprintf("Unknow option: %s\n", arg);
 		}
 	}
 	return 0;
 }
 
-int set_cmd(option_t *opt) {
+int set_cmd(option_t *opt)
+{
 	int n = 0;
-	if (opt->version == true) {
+	if (opt->version == true)
+	{
 		opt->cmd |= CMD_VERSION;
 		n++;
 	}
-	if (opt->help == true) {
+	if (opt->help == true)
+	{
 		opt->cmd |= CMD_HELP;
 		n++;
 	}
-	if (opt->list == true) {
+	if (opt->list == true)
+	{
 		opt->cmd |= CMD_LIST;
 		n++;
 	}
-	if (opt->extract) {
+	if (opt->extract)
+	{
 		opt->cmd |= CMD_EXTRACT;
 		n++;
 	}
-	if (opt->exe && opt->append) {
+	if (opt->exe && opt->append)
+	{
 		opt->cmd |= CMD_APPEND;
 		n++;
 	}
 	return n;
 }
 
-int run_cmd(option_t *opt) {
+int run_cmd(option_t *opt)
+{
 	int n = 0;
 	opt_cmd cmd = opt->cmd;
-	for (int i = 0; cmds[i].cmd_id && cmds[i].cmd_func; i++) {
-		if (opt->cmd & cmds[i].cmd_id) {
+	for (int i = 0; cmds[i].cmd_id && cmds[i].cmd_func; i++)
+	{
+		if (opt->cmd & cmds[i].cmd_id)
+		{
 			cmds[i].cmd_func(opt);
 			n++;
 		}

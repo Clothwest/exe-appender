@@ -25,13 +25,16 @@
 
 // footer should be initialized to { 0 }
 
-typedef struct _footer {
+typedef struct _footer
+{
 	char magic[MAGIC_SIZE]; // EPD0.1.0		9	bytes
 	char exename[ENAME_SIZE]; //			255	bytes
 	char filename[FNAME_SIZE]; // 			256	bytes
 	fsize_t payload_len; // 				8 	bytes
 	char tail[TAIL_LEN + 1]; //	EPDTAIL		8	bytes
 } footer_t; //						total:	536	bytes  -->  epd_fwrite 535 bytes (without last '\0')
+
+extern char footer_exename[ENAME_SIZE];
 
 EPD_API void set_footer(footer_t *footer, const char *exepath, const char *appendfilepath, fsize_t payload_len);
 EPD_API void fread_footer(footer_t *footer, FILE *stream);

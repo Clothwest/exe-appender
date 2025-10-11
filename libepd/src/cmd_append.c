@@ -12,14 +12,17 @@
 
 #define BUF_SIZE (1024 * 1024)
 
-int cmd_append(option_t *opt) {
+int cmd_append(option_t *opt)
+{
 	char buf[MAX_PATH] = { 0 };
 	opt->output = set_output_filename(opt->output, opt->exe, opt->append, buf, MAX_PATH);
 	return append_file_with_footer(opt->exe, opt->append, opt->output);
 }
 
-const char *set_output_filename(const char *output, const char *exe, const char *append, char *buf, size_t buf_size) {
-	if (output) {
+const char *set_output_filename(const char *output, const char *exe, const char *append, char *buf, size_t buf_size)
+{
+	if (output)
+	{
 		return output;
 	}
 	const char *exename = get_fname(exe);
@@ -32,7 +35,8 @@ const char *set_output_filename(const char *output, const char *exe, const char 
 	return (output = buf);
 }
 
-int append_file_with_footer(const char *exepath, const char *appendfilepath, const char *output) {
+int append_file_with_footer(const char *exepath, const char *appendfilepath, const char *output)
+{
 	FILE *fexe = epd_fopen(exepath, "rb");
 	FILE *fappend = epd_fopen(appendfilepath, "rb");
 	FILE *fout = epd_fopen(output, "wb");
@@ -55,7 +59,6 @@ int append_file_with_footer(const char *exepath, const char *appendfilepath, con
 	fclose(fexe);
 	fclose(fappend);
 	fclose(fout);
-	xfree(exepath);
 	printf("Created output file: %s\n", output);
 	return 0;
 }

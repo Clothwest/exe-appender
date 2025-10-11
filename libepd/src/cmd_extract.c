@@ -8,21 +8,23 @@
 
 #define BUF_SIZE (1024 * 1024)
 
-static bool allocated = false;
-
-int cmd_extract(option_t *opt) {
-	if (!(opt->exe = extract(opt->exe))) {
+int cmd_extract(option_t *opt)
+{
+	if (!(opt->exe = extract(opt->exe)))
+	{
 		return 1;
 	}
 	return 0;
 }
 
-const char *extract(const char *exepath) {
+const char *extract(const char *exepath)
+{
 	FILE *fexe = epd_fopen(exepath, "rb");
 
 	footer_t footer = { 0 };
 	fread_footer(&footer, fexe);
-	if (memcmp(footer.magic, MAGIC, MAGIC_SIZE) != 0 || memcmp(footer.tail, TAIL, TAIL_LEN) != 0) {
+	if (memcmp(footer.magic, MAGIC, MAGIC_SIZE) != 0 || memcmp(footer.tail, TAIL, TAIL_LEN) != 0)
+	{
 		printf("No appended file\n");
 		epd_fclose(fexe);
 		return NULL;
@@ -39,13 +41,15 @@ const char *extract(const char *exepath) {
 	rewind(fexe);
 
 	total = exe_size;
-	while ((n = epd_fread(buf, 1, BUF_SIZE < total ? BUF_SIZE : total, fexe)) > 0) {
+	while ((n = epd_fread(buf, 1, BUF_SIZE < total ? BUF_SIZE : total, fexe)) > 0)
+	{
 		epd_fwrite(buf, 1, n, foldexe);
 		total -= n;
 	}
 
 	total = append_size;
-	while ((n = epd_fread(buf, 1, BUF_SIZE < total ? BUF_SIZE : total, fexe)) > 0) {
+	while ((n = epd_fread(buf, 1, BUF_SIZE < total ? BUF_SIZE : total, fexe)) > 0)
+	{
 		epd_fwrite(buf, 1, n, ffile);
 		total -= n;
 	}
@@ -59,14 +63,6 @@ const char *extract(const char *exepath) {
 	printf("Output:\n");
 	printf("Output exe: %s\n", footer.exename);
 	printf("Output file: %s\n", footer.filename);
-	char *exe = (char *)epd_malloc(sizeof(footer.exename));
-	allocated = true;
-	memcpy(exe, footer.exename, sizeof(footer.exename));
-	return exe;
-}
-
-void xfree(void *ptr) {
-	if (allocated) {
-		free(ptr);
-	}
+	memcpy(footer_exename, footer.exename, sizeof(footer.exename));
+	return footer_exename;
 }

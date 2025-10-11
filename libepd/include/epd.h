@@ -8,5 +8,5 @@
 
 #define EPD "EPD"
 #define epd "epd"
-#define VERSION "0.1.0"
+#define VERSION "0.2.0"
 #define VERSION_INFO EPD "  " VERSION "\t\tby Clothwest"

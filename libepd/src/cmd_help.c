@@ -4,12 +4,14 @@
 
 #include <stdio.h>
 
-int cmd_help(option_t *opt) {
+int cmd_help(option_t *opt)
+{
 	print_usage();
 	return 0;
 }
 
-void print_usage(void) {
+void print_usage(void)
+{
 	printf("Usage:\n");
 	printf("epd -h | to get help\n");
 	printf("epd -v | to get version\n");
